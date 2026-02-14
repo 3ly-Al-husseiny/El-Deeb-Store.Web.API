@@ -11,4 +11,8 @@
       <ProjectReference Include="..\Services.Abstraction\Services.Abstraction.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="16.0.0" />
+    </ItemGroup>
+
 </Project>
