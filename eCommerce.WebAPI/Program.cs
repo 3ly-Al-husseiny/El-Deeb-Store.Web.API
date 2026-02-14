@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Presistence.Data;
+
 namespace eCommerce.WebAPI;
 
 public class Program
@@ -14,6 +17,15 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+        
+        
+        // Register the DbContext with the dependency injection container and configure its options
+        builder.Services.AddDbContext<ECommerceDbContext>(options =>
+        {
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+        });
+        
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

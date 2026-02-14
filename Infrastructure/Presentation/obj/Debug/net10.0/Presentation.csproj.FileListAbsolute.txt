@@ -15,3 +15,4 @@
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Infrastructure/Presentation/obj/Debug/net10.0/refint/Presentation.dll
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Infrastructure/Presentation/obj/Debug/net10.0/Presentation.pdb
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Infrastructure/Presentation/obj/Debug/net10.0/ref/Presentation.dll
+/home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Infrastructure/Presentation/obj/Debug/net10.0/Presentation.sourcelink.json

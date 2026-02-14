@@ -17,3 +17,4 @@
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Services/obj/Debug/net10.0/refint/Services.dll
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Services/obj/Debug/net10.0/Services.pdb
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Services/obj/Debug/net10.0/ref/Services.dll
+/home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Services/obj/Debug/net10.0/Services.sourcelink.json
