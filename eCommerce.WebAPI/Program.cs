@@ -1,5 +1,7 @@
+using Domain.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Presistence.Data;
+using Presistence.Repositories;
 using Services.Abstraction;
 
 namespace eCommerce.WebAPI;
@@ -28,6 +30,7 @@ public class Program
         });
         
         builder.Services.AddScoped<IDataSeeding, DataSeeding>();
+        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         
         var app = builder.Build();
         
