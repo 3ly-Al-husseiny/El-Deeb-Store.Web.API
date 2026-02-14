@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Presistence.Data;
+using Services.Abstraction;
 
 namespace eCommerce.WebAPI;
 
@@ -26,7 +27,19 @@ public class Program
 
         });
         
+        builder.Services.AddScoped<IDataSeeding, DataSeeding>();
+        
         var app = builder.Build();
+        
+        // Seed Data with the first request to the API
+
+        #region Data Seeding before the first request to the API
+
+        using var scope = app.Services.CreateScope();
+        var objOfDataSeeding =  scope.ServiceProvider.GetRequiredService<IDataSeeding>();
+        objOfDataSeeding.Seed();
+
+        #endregion
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
