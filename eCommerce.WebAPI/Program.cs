@@ -37,7 +37,7 @@ public class Program
 
         using var scope = app.Services.CreateScope();
         var objOfDataSeeding =  scope.ServiceProvider.GetRequiredService<IDataSeeding>();
-        objOfDataSeeding.Seed();
+        objOfDataSeeding.SeedAsync();
 
         #endregion
 
