@@ -1178,7 +1178,10 @@
         },
         "runtime": {
           "bin/placeholder/Presentation.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Presistence/1.0.0": {
         "type": "project",

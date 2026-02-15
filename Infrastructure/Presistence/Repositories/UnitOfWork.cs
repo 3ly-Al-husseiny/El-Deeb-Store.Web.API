@@ -33,8 +33,9 @@ public class UnitOfWork(ECommerceDbContext _dbContext) : IUnitOfWork
 
         #region Concurrent Dictionary
 
+        var key = typeof(TEntity).Name; // Get the name of the entity type as the key
         return (IGenericRepository<TEntity, TKey>)
-            _concurrentRepositories.GetOrAdd(typeof(TEntity).Name, (_) => new ConcurrentDictionary<string, object>());
+            _concurrentRepositories.GetOrAdd(key, (_) => new GenericRepository<TEntity, TKey>(_dbContext));
 
         #endregion
     }
