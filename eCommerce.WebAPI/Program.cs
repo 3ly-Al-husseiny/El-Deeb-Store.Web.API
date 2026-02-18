@@ -1,5 +1,7 @@
 using Domain.Contracts;
+using eCommerce.WebAPI.Factories;
 using eCommerce.WebAPI.Middlewares;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Presistence;
 using Presistence.Data;
@@ -23,6 +25,10 @@ public class Program
         builder.Services.AddOpenApi();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.Services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.InvalidModelStateResponseFactory = ApiResponseFactory.CustomValidationErrorResponse;
+        });
 
 
         // Register the DbContext with the dependency injection container and configure its options

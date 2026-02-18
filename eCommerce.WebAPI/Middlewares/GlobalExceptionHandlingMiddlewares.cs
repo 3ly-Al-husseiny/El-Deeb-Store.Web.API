@@ -1,12 +1,14 @@
 using System.Text.Json;
+using Domain.Exceptions;
 using eCommerce.WebAPI.ErrorModels;
 
 namespace eCommerce.WebAPI.Middlewares;
 
-public class GlobalExceptionHandlingMiddlewares 
+public class GlobalExceptionHandlingMiddlewares
 {
     private readonly ILogger<GlobalExceptionHandlingMiddlewares> _logger;
-    private  readonly RequestDelegate _next;
+    private readonly RequestDelegate _next;
+
     public GlobalExceptionHandlingMiddlewares(RequestDelegate next, ILogger<GlobalExceptionHandlingMiddlewares> logger)
     {
         _next = next;
@@ -31,8 +33,13 @@ public class GlobalExceptionHandlingMiddlewares
     {
         //1] Change StatusCode
         // context.Response.StatusCode = 200; // OK , As in real projects we will send the error in body with status code 200
-        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-        
+        // context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        context.Response.StatusCode = ex switch
+        {
+            NotFoundException => StatusCodes.Status404NotFound,
+            (_) => StatusCodes.Status500InternalServerError
+        };
+
         //2] Change Content Type
         context.Response.ContentType = "application/json";
 
