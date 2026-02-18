@@ -19,13 +19,28 @@ public class GlobalExceptionHandlingMiddlewares
     {
         try
         {
-            await _next(context);
+            await _next(context); //404 product not found throw ex , 500 internal server error throw ex
+            
+            // Handle 404 Not Found for endpoints that are not found 
+            if(context.Response.StatusCode == StatusCodes.Status404NotFound)
+                await HandleNotFoundAsync(context);
         }
         catch (Exception ex)
         {
             _logger.LogError($"Somthing went wrong ==> : {ex.Message}");
             await HandleExceptionAsync(context, ex);
         }
+    }
+
+    private async Task HandleNotFoundAsync(HttpContext context)
+    {
+        context.Response.ContentType = "application/json";
+        var response = new ErrorDetails()
+        {
+            StatusCode = StatusCodes.Status404NotFound,
+            ErrorMessage = $"The endpoint with url {context.Request.Path} is not found."
+        }.ToString();
+        await context.Response.WriteAsync(response);
     }
 
     // Helper Method
