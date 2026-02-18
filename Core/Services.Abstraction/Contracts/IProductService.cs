@@ -1,11 +1,13 @@
 using Shared.DTOs.ProductModuleDTOs;
+using Shared.EndPointsSpecificationsParameters;
+using Shared.Enums;
 
 namespace Services.Abstraction;
 
 public interface IProductService
 {
     //GetAllProducts --> Task<IEnumerable<ProductResultDto>>
-    public Task<IEnumerable<ProductResultDto>> GetAllAsync();
+    public Task<PaginatedResult<ProductResultDto>> GetAllAsync(ProductSpecificationParameter parameter);
 
     //GetAllBrands --> Task<IEnumerable<BrandResultDto>>
     public Task<IEnumerable<BrandResultDto>> GetAllBrandsAsync();

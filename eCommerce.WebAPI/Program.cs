@@ -55,7 +55,7 @@ public class Program
             app.UseSwaggerUI(); //Middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
         }
 
-        
+                
         app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.MapControllers();

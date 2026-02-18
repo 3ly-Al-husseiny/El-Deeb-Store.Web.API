@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstraction;
 using Shared.DTOs.ProductModuleDTOs;
+using Shared.EndPointsSpecificationsParameters;
+using Shared.Enums;
 
 namespace Presentation.Controllers;
 
@@ -10,33 +12,30 @@ public class ProductsController(IServiceManager _serviceManager) : ControllerBas
 {
     //EndPoint ==> Get AllProducst
     [HttpGet()] //BaseUrl/Producst [GET]
-    public async Task<ActionResult<IEnumerable<ProductResultDto>>> GetAllProducstAsync()
+    public async Task<ActionResult<PaginatedResult<ProductResultDto>>> GetAllProducstAsync(
+        [FromQuery] ProductSpecificationParameter parameter)
     {
-        var products = await _serviceManager.ProductService.GetAllAsync();
-        return Ok(products);
+        return Ok(await _serviceManager.ProductService.GetAllAsync(parameter));
     }
 
     //EndPoint ==> Get AllBrands
-    [HttpGet("brands")] //BaseUrl/Producst/brands [GET]
+    [HttpGet("Brands")] //BaseUrl/Producst/brands [GET]
     public async Task<ActionResult<IEnumerable<BrandResultDto>>> GetAllBrandsAsync()
     {
-        var brands = await _serviceManager.ProductService.GetAllBrandsAsync();
-        return Ok(brands);
+        return Ok(await _serviceManager.ProductService.GetAllBrandsAsync());
     }
 
     //EndPoint ==> Get AllTypes
-    [HttpGet("types")] //BaseUrl/Producst/types [GET]
+    [HttpGet("Types")] //BaseUrl/Producst/types [GET]
     public async Task<ActionResult<IEnumerable<TypeResultDto>>> GetAllTypesAsync()
     {
-        var types = await _serviceManager.ProductService.GetAllTypesAsync();
-        return Ok(types);
+        return Ok(await _serviceManager.ProductService.GetAllTypesAsync());
     }
-    
+
     //EndPoint ==> Get Product By Id
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductResultDto>> GetProductByIdAsync(int id)
     {
-        var product = await _serviceManager.ProductService.GetByIdAsync(id)!;
-        return Ok(product);
+        return Ok(await _serviceManager.ProductService.GetByIdAsync(id)!);
     }
 }

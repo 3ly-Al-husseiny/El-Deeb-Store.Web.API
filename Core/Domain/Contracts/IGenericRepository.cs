@@ -15,4 +15,11 @@ public interface IGenericRepository<TEntity,TKey> where TEntity : BasedEntity<TK
     //Remove
     public void Remove(TEntity entity);
 
+    #region Specifications
+
+    Task<IEnumerable<TEntity>> GetAllWithSpecAsync(ISpecifications<TEntity,TKey> specifications, bool asNoTracking = false);
+    Task<TEntity?> GetByIdWithSpecAsync(ISpecifications<TEntity,TKey> specifications);
+    Task<int> CountAsync(ISpecifications<TEntity,TKey> specifications);
+    #endregion
+
 }

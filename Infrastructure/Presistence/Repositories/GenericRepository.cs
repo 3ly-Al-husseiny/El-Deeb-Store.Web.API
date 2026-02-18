@@ -1,6 +1,7 @@
 using Domain.Contracts;
 using Domain.Entities.Shared;
 using Presistence.Data;
+using Presistence.Helpers;
 
 namespace Presistence.Repositories;
 
@@ -16,7 +17,7 @@ public class GenericRepository<TEntity, TKey>(ECommerceDbContext _dbContext)
 
     public async Task<TEntity>? GetByIdAsync(TKey id)
     {
-       return await _dbContext.Set<TEntity>().FindAsync(id);
+        return await _dbContext.Set<TEntity>().FindAsync(id);
     }
 
     public async Task AddAsync(TEntity entity)
@@ -33,4 +34,23 @@ public class GenericRepository<TEntity, TKey>(ECommerceDbContext _dbContext)
     {
         _dbContext.Set<TEntity>().Remove(entity);
     }
+
+    #region Specification Design Pattern
+
+    public async Task<IEnumerable<TEntity>> GetAllWithSpecAsync(ISpecifications<TEntity, TKey> specifications,
+        bool asNoTracking = false)
+        => await SpecificationEvaluator.CreateQuery(_dbContext.Set<TEntity>().AsQueryable(), specifications)
+            .ToListAsync();
+
+
+    public async Task<TEntity?> GetByIdWithSpecAsync(ISpecifications<TEntity, TKey> specifications)
+    => await SpecificationEvaluator.CreateQuery(_dbContext.Set<TEntity>().AsQueryable(), specifications).FirstOrDefaultAsync();
+
+    public async Task<int> CountAsync(ISpecifications<TEntity, TKey> specifications)
+    {
+        return await SpecificationEvaluator.CreateQuery(_dbContext.Set<TEntity>().AsQueryable(), specifications)
+            .CountAsync();
+    }
+
+    #endregion
 }
