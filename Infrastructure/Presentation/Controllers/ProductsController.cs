@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstraction;
 using Shared.DTOs.ProductModuleDTOs;
+using Shared.Enums;
 
 namespace Presentation.Controllers;
 
@@ -10,14 +11,14 @@ public class ProductsController(IServiceManager _serviceManager) : ControllerBas
 {
     //EndPoint ==> Get AllProducst
     [HttpGet()] //BaseUrl/Producst [GET]
-    public async Task<ActionResult<IEnumerable<ProductResultDto>>> GetAllProducstAsync()
+    public async Task<ActionResult<IEnumerable<ProductResultDto>>> GetAllProducstAsync(int? typeId , int? brandId , ProductSortingOptions sort)
     {
-        var products = await _serviceManager.ProductService.GetAllAsync();
+        var products = await _serviceManager.ProductService.GetAllAsync(typeId, brandId , sort);
         return Ok(products);
     }
 
     //EndPoint ==> Get AllBrands
-    [HttpGet("brands")] //BaseUrl/Producst/brands [GET]
+    [HttpGet("Brands")] //BaseUrl/Producst/brands [GET]
     public async Task<ActionResult<IEnumerable<BrandResultDto>>> GetAllBrandsAsync()
     {
         var brands = await _serviceManager.ProductService.GetAllBrandsAsync();
@@ -25,7 +26,7 @@ public class ProductsController(IServiceManager _serviceManager) : ControllerBas
     }
 
     //EndPoint ==> Get AllTypes
-    [HttpGet("types")] //BaseUrl/Producst/types [GET]
+    [HttpGet("Types")] //BaseUrl/Producst/types [GET]
     public async Task<ActionResult<IEnumerable<TypeResultDto>>> GetAllTypesAsync()
     {
         var types = await _serviceManager.ProductService.GetAllTypesAsync();

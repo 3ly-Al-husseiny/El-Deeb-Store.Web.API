@@ -11,11 +11,18 @@ public static class SpecificationEvaluator
             query = query.Where(specifications.Criteria);
         }
 
+        if (specifications.OrderBy != null)
+            query = query.OrderBy(specifications.OrderBy);
+
+        if (specifications.OrderByDescending != null)
+            query = query.OrderByDescending(specifications.OrderByDescending);
+
         if (specifications.IncludeExpressions is not null && specifications.IncludeExpressions.Any())
         {
             query = specifications.IncludeExpressions.Aggregate(query,
                 (current, include) => current.Include(include));
         }
+
         return query;
     }
 }

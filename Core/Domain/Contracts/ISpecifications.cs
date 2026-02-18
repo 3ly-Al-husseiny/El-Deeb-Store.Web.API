@@ -9,4 +9,8 @@ public interface ISpecifications<TEntity,TKey> where TEntity : BasedEntity<TKey>
     public Expression<Func<TEntity,bool>>? Criteria { get; }
      //Signature for property [Expression ==> Include]
      public List<Expression<Func<TEntity, object>>>? IncludeExpressions { get; }
+     //Signature for property [Expression ==> OrderBy]
+     public Expression<Func<TEntity, object>>? OrderBy { get; }
+     //Signature for property [Expression ==> OrderByDescending]
+     public Expression<Func<TEntity, object>>? OrderByDescending { get; }
 }
