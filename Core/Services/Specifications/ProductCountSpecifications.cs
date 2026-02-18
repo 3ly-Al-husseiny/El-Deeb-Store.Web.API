@@ -11,6 +11,7 @@ public class ProductCountSpecifications : BaseSpecifications<Product, int>
         (!parameter.BrandId.HasValue || p.BrandId == parameter.BrandId) &&
         (string.IsNullOrEmpty(parameter.Search) || p.Name.ToLower().Contains(parameter.Search.ToLower())))
     {
-        var countSpecifications = new ProductCountSpecifications(parameter);
+        // We don't need to include any related entities here because we are only counting the products, and we don't need any related data for that.
+        // We just need to apply the filters based on the provided parameters (TypeId, BrandId, Search) to get the correct count of products that match those criteria.
     }
 }

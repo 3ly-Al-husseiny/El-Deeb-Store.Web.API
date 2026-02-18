@@ -1,4 +1,5 @@
 using Domain.Contracts;
+using eCommerce.WebAPI.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using Presistence;
 using Presistence.Data;
@@ -49,6 +50,9 @@ public class Program
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
+
+            app.UseMiddleware<GlobalExceptionHandlingMiddlewares>();
+            
             app.MapOpenApi(); //Middleware to serve the registered OpenAPI/Swagger documents.
 
             app.UseSwagger(); //Middleware to serve generated Swagger as a JSON endpoint.
