@@ -10,7 +10,9 @@ public class ProductWithTypeAndBrandSpecifications : BaseSpecifications<Product,
     //Get All Products ==> Include Types , Brands [Include ==> AddInclude]
     public ProductWithTypeAndBrandSpecifications(ProductSpecificationParameter parameter)
         : base(p => (!parameter.TypeId.HasValue || p.TypeId == parameter.TypeId) &&
-                    (!parameter.BrandId.HasValue || p.BrandId == parameter.BrandId))
+                    (!parameter.BrandId.HasValue || p.BrandId == parameter.BrandId) &&
+                    (string.IsNullOrEmpty(parameter.Search) || p.Name.ToLower().Contains(parameter.Search.ToLower()))
+        )
     //where(p => p.BrandId == brandId && p => p.TypeId == typeId)  [Expression ==> Where]
     {
         AddIncludes(p => p.ProductType);
