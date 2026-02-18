@@ -23,6 +23,11 @@ public static class SpecificationEvaluator
                 (current, include) => current.Include(include));
         }
 
+        if (specifications.isPaginated)
+        {
+            query = query.Skip(specifications.Skip).Take(specifications.Take);
+        }
+
         return query;
     }
 }

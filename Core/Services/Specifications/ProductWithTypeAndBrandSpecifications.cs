@@ -34,6 +34,7 @@ public class ProductWithTypeAndBrandSpecifications : BaseSpecifications<Product,
                 AddOrderBy(p => p.Name);
                 break;
         }
+        ApplyPagination(parameter.PageSize, parameter.PageIndex);
     }
 
     // Get Product By Id ==> Include Types , Brands [Include ==> AddInclude]

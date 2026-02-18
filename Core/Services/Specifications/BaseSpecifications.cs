@@ -4,10 +4,11 @@ using Domain.Entities.Shared;
 
 namespace Services.Specifications;
 
-public abstract class BaseSpecifications<TEntity,TKey> : ISpecifications<TEntity,TKey> where TEntity : BasedEntity<TKey>
-    
+public abstract class BaseSpecifications<TEntity, TKey> : ISpecifications<TEntity, TKey>
+    where TEntity : BasedEntity<TKey>
+
 {
-    #region Creiteria
+    #region Creiteria - Where Expressions
 
     protected BaseSpecifications(Expression<Func<TEntity, bool>>? criteria)
     {
@@ -15,11 +16,13 @@ public abstract class BaseSpecifications<TEntity,TKey> : ISpecifications<TEntity
     }
 
     public Expression<Func<TEntity, bool>>? Criteria { get; private set; }
+
     #endregion
-    
-    #region Include Expressions
+
+    #region Includes Expressions
+
     public List<Expression<Func<TEntity, object>>>? IncludeExpressions { get; } = new();
-    
+
 
     //AddIncludes(p => p.ProductBrand)  [Expression ==> Include]
     //AddIncludes(p => p.ProductType)  [Expression ==> Include]
@@ -35,7 +38,26 @@ public abstract class BaseSpecifications<TEntity,TKey> : ISpecifications<TEntity
     public Expression<Func<TEntity, object>>? OrderBy { get; private set; }
     public Expression<Func<TEntity, object>>? OrderByDescending { get; private set; }
 
+
     protected void AddOrderBy(Expression<Func<TEntity, object>> orderByExpression) => OrderBy = orderByExpression;
-    protected void AddOrderByDescending(Expression<Func<TEntity, object>> orderByDescendingExpression) => OrderByDescending = orderByDescendingExpression;
+
+    protected void AddOrderByDescending(Expression<Func<TEntity, object>> orderByDescendingExpression) =>
+        OrderByDescending = orderByDescendingExpression;
+
+    #endregion
+
+    #region Pagination Expressions 
+
+    public bool isPaginated { get; private set; }
+    public int Skip { get; private set; }
+    public int Take { get; private set; }
+
+    protected void ApplyPagination(int pageSize, int pageIndex)
+    {
+        isPaginated = true;
+        Take = pageSize;
+        Skip = (pageIndex - 1) * pageSize;
+    }
+
     #endregion
 }
