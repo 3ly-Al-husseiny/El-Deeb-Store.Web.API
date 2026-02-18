@@ -46,5 +46,11 @@ public class GenericRepository<TEntity, TKey>(ECommerceDbContext _dbContext)
     public async Task<TEntity?> GetByIdWithSpecAsync(ISpecifications<TEntity, TKey> specifications)
     => await SpecificationEvaluator.CreateQuery(_dbContext.Set<TEntity>().AsQueryable(), specifications).FirstOrDefaultAsync();
 
+    public async Task<int> CountAsync(ISpecifications<TEntity, TKey> specifications)
+    {
+        return await SpecificationEvaluator.CreateQuery(_dbContext.Set<TEntity>().AsQueryable(), specifications)
+            .CountAsync();
+    }
+
     #endregion
 }
