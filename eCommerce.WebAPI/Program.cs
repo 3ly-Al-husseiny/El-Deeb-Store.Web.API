@@ -5,6 +5,7 @@ using Presistence.Data;
 using Presistence.Repositories;
 using Services;
 using Services.Abstraction;
+using Services.Implementations;
 
 namespace eCommerce.WebAPI;
 
@@ -32,6 +33,7 @@ public class Program
         builder.Services.AddScoped<IDataSeeding, DataSeeding>();
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         builder.Services.AddAutoMapper(cfg => { }, typeof(ServicesAssemblyReference).Assembly);
+        builder.Services.AddScoped<IServiceManager, ServiceManager>();
         var app = builder.Build();
 
         // Seed Data with the first request to the API
@@ -53,13 +55,10 @@ public class Program
             app.UseSwaggerUI(); //Middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
         }
 
+        
         app.UseHttpsRedirection();
-
-        app.UseAuthorization();
-
-
+        app.UseStaticFiles();
         app.MapControllers();
-
         app.Run();
     }
 }

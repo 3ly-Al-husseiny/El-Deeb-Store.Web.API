@@ -5,8 +5,8 @@
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Domain/obj/Debug/net10.0/Domain.AssemblyInfoInputs.cache
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Domain/obj/Debug/net10.0/Domain.AssemblyInfo.cs
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Domain/obj/Debug/net10.0/Domain.csproj.CoreCompileInputs.cache
+/home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Domain/obj/Debug/net10.0/Domain.sourcelink.json
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Domain/obj/Debug/net10.0/Domain.dll
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Domain/obj/Debug/net10.0/refint/Domain.dll
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Domain/obj/Debug/net10.0/Domain.pdb
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Domain/obj/Debug/net10.0/ref/Domain.dll
-/home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Domain/obj/Debug/net10.0/Domain.sourcelink.json

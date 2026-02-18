@@ -10,8 +10,10 @@ public class ProductProfile : Profile
     {
         CreateMap<ProductType, TypeResultDto>();
         CreateMap<ProductBrand, BrandResultDto>();
-        CreateMap<Product, ProductResultDto>() // allow the loading of the related data (Brand and Type) to be mapped to the DTO
+        CreateMap<Product,
+                ProductResultDto>() // allow the loading of the related data (Brand and Type) to be mapped to the DTO
             .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.ProductBrand.Name))
-            .ForMember(dest => dest.TypeName, opt => opt.MapFrom(src => src.ProductType.Name));
+            .ForMember(dest => dest.TypeName, opt => opt.MapFrom(src => src.ProductType.Name))
+            .ForMember(dest => dest.PictureUrl, opt => opt.MapFrom<PictureURLResoulver>());
     }
 }

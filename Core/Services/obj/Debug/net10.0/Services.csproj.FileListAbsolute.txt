@@ -12,9 +12,9 @@
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Services/obj/Debug/net10.0/Services.AssemblyInfoInputs.cache
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Services/obj/Debug/net10.0/Services.AssemblyInfo.cs
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Services/obj/Debug/net10.0/Services.csproj.CoreCompileInputs.cache
+/home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Services/obj/Debug/net10.0/Services.sourcelink.json
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Services/obj/Debug/net10.0/Services.csproj.Up2Date
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Services/obj/Debug/net10.0/Services.dll
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Services/obj/Debug/net10.0/refint/Services.dll
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Services/obj/Debug/net10.0/Services.pdb
 /home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Services/obj/Debug/net10.0/ref/Services.dll
-/home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Core/Services/obj/Debug/net10.0/Services.sourcelink.json
