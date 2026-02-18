@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using Domain.Entities.ProductModule;
+using Shared.EndPointsSpecificationsParameters;
 using Shared.Enums;
 
 namespace Services.Specifications;
@@ -7,15 +8,16 @@ namespace Services.Specifications;
 public class ProductWithTypeAndBrandSpecifications : BaseSpecifications<Product, int>
 {
     //Get All Products ==> Include Types , Brands [Include ==> AddInclude]
-    public ProductWithTypeAndBrandSpecifications(int? typeId, int? brandId, ProductSortingOptions sort)
-        : base(p => (!typeId.HasValue || p.TypeId == typeId) && (!brandId.HasValue || p.BrandId == brandId))
+    public ProductWithTypeAndBrandSpecifications(ProductSpecificationParameter parameter)
+        : base(p => (!parameter.TypeId.HasValue || p.TypeId == parameter.TypeId) &&
+                    (!parameter.BrandId.HasValue || p.BrandId == parameter.BrandId))
     //where(p => p.BrandId == brandId && p => p.TypeId == typeId)  [Expression ==> Where]
     {
         AddIncludes(p => p.ProductType);
         AddIncludes(p => p.ProductBrand);
 
         //Switch Case For Sorting Options [Expression ==> OrderBy || OrderByDescending]
-        switch (sort)
+        switch (parameter.Sort)
         {
             case ProductSortingOptions.PriceAsc:
                 AddOrderBy(p => p.Price);

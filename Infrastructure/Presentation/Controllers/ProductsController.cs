@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstraction;
 using Shared.DTOs.ProductModuleDTOs;
+using Shared.EndPointsSpecificationsParameters;
 using Shared.Enums;
 
 namespace Presentation.Controllers;
@@ -11,9 +12,9 @@ public class ProductsController(IServiceManager _serviceManager) : ControllerBas
 {
     //EndPoint ==> Get AllProducst
     [HttpGet()] //BaseUrl/Producst [GET]
-    public async Task<ActionResult<IEnumerable<ProductResultDto>>> GetAllProducstAsync(int? typeId , int? brandId , ProductSortingOptions sort)
+    public async Task<ActionResult<IEnumerable<ProductResultDto>>> GetAllProducstAsync([FromQuery]ProductSpecificationParameter parameter)
     {
-        var products = await _serviceManager.ProductService.GetAllAsync(typeId, brandId , sort);
+        var products = await _serviceManager.ProductService.GetAllAsync(parameter);
         return Ok(products);
     }
 
