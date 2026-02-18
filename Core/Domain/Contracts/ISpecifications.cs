@@ -1,0 +1,12 @@
+using System.Linq.Expressions;
+using Domain.Entities.Shared;
+
+namespace Domain.Contracts;
+
+public interface ISpecifications<TEntity,TKey> where TEntity : BasedEntity<TKey>
+{
+    //Signature for property [Expression ==> Where]
+    public Expression<Func<TEntity,bool>>? Criteria { get; }
+     //Signature for property [Expression ==> Include]
+     public List<Expression<Func<TEntity, object>>>? IncludeExpressions { get; }
+}
