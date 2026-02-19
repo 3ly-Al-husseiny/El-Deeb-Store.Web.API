@@ -19,20 +19,16 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-       
+        #region Dependency Injection Container
 
+        builder.Services.AddWebApiServices();
+        builder.Services.AddInfrastructureServices(builder.Configuration);
+        builder.Services.AddCoreServices();
 
-        // Register the DbContext with the dependency injection container and configure its options
-        builder.Services.AddDbContext<ECommerceDbContext>(options =>
-        {
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-        });
-
-        builder.Services.AddScoped<IDataSeeding, DataSeeding>();
-        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+        #endregion
         
-        builder.Services.AddCoreServices().;
-        
+
+
         var app = builder.Build();
 
         // Seed Data with the first request to the API
@@ -48,16 +44,15 @@ public class Program
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
-
             app.UseMiddleware<GlobalExceptionHandlingMiddlewares>();
-            
+
             app.MapOpenApi(); //Middleware to serve the registered OpenAPI/Swagger documents.
 
             app.UseSwagger(); //Middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwaggerUI(); //Middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
         }
 
-                
+
         app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.MapControllers();
