@@ -4,12 +4,12 @@ using eCommerce.WebAPI.ErrorModels;
 
 namespace eCommerce.WebAPI.Middlewares;
 
-public class GlobalExceptionHandlingMiddlewares
+public class GlobalExceptionHandlingMiddleware
 {
-    private readonly ILogger<GlobalExceptionHandlingMiddlewares> _logger;
+    private readonly ILogger<GlobalExceptionHandlingMiddleware> _logger;
     private readonly RequestDelegate _next;
 
-    public GlobalExceptionHandlingMiddlewares(RequestDelegate next, ILogger<GlobalExceptionHandlingMiddlewares> logger)
+    public GlobalExceptionHandlingMiddleware(RequestDelegate next, ILogger<GlobalExceptionHandlingMiddleware> logger)
     {
         _next = next;
         _logger = logger;
