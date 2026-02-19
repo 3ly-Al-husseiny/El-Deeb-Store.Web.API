@@ -1,61 +1,38 @@
-using Domain.Contracts;
 using eCommerce.WebAPI.Extensions;
-using eCommerce.WebAPI.Factories;
-using eCommerce.WebAPI.Middlewares;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Presistence;
-using Presistence.Data;
-using Presistence.Repositories;
-using Services;
-using Services.Abstraction;
-using Services.Implementations;
-
 namespace eCommerce.WebAPI;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
-        var builder = WebApplication.CreateBuilder(args);
-
         #region Dependency Injection Container
+
+        var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddWebApiServices();
         builder.Services.AddInfrastructureServices(builder.Configuration);
         builder.Services.AddCoreServices();
 
         #endregion
-        
 
+        #region Middlewares - Pipeline
 
         var app = builder.Build();
 
-        // Seed Data with the first request to the API
-
-        #region Data Seeding before the first request to the API
-
-        using var scope = app.Services.CreateScope();
-        var objOfDataSeeding = scope.ServiceProvider.GetRequiredService<IDataSeeding>();
-        objOfDataSeeding.SeedAsync();
-
-        #endregion
+        await app.SeedDatabaseAsync();
+        app.UseExceptionHandlingMiddlewares();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
-            app.UseMiddleware<GlobalExceptionHandlingMiddlewares>();
-
-            app.MapOpenApi(); //Middleware to serve the registered OpenAPI/Swagger documents.
-
-            app.UseSwagger(); //Middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwaggerUI(); //Middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerMiddlewares();
         }
-
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.MapControllers();
         app.Run();
+
+        #endregion
     }
 }
