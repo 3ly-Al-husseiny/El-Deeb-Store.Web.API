@@ -1,3 +1,5 @@
+using eCommerce.WebAPI.ErrorModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstraction;
 using Shared.DTOs.ProductModuleDTOs;
@@ -10,32 +12,52 @@ namespace Presentation.Controllers;
 [Route("api/[controller]")]
 public class ProductsController(IServiceManager _serviceManager) : ControllerBase
 {
-    //EndPoint ==> Get AllProducst
-    [HttpGet()] //BaseUrl/Producst [GET]
+    /// <summary>
+    /// Gets all products with pagination, filtering, and sorting options.
+    /// </summary>
+    /// <param name="parameter">Query parameters for filtering, sorting, and pagination.</param>
+    /// <returns>A paginated list of products.</returns>
+    [ProducesResponseType(type: typeof(PaginatedResult<ProductResultDto>), statusCode: StatusCodes.Status200OK)]
+    [ProducesResponseType(type: typeof(ErrorDetails), statusCode: StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(type: typeof(ValidationErrorResponse), statusCode: StatusCodes.Status400BadRequest)]
+    [HttpGet()]
     public async Task<ActionResult<PaginatedResult<ProductResultDto>>> GetAllProducstAsync(
-        [FromQuery] ProductSpecificationParameter parameter)
-    {
-        return Ok(await _serviceManager.ProductService.GetAllAsync(parameter));
-    }
+        [FromQuery] ProductSpecificationParameter parameter) =>
+        Ok(await _serviceManager.ProductService.GetAllAsync(parameter));
 
-    //EndPoint ==> Get AllBrands
-    [HttpGet("Brands")] //BaseUrl/Producst/brands [GET]
-    public async Task<ActionResult<IEnumerable<BrandResultDto>>> GetAllBrandsAsync()
-    {
-        return Ok(await _serviceManager.ProductService.GetAllBrandsAsync());
-    }
 
-    //EndPoint ==> Get AllTypes
-    [HttpGet("Types")] //BaseUrl/Producst/types [GET]
-    public async Task<ActionResult<IEnumerable<TypeResultDto>>> GetAllTypesAsync()
-    {
-        return Ok(await _serviceManager.ProductService.GetAllTypesAsync());
-    }
+    /// <summary>
+    /// Gets all available product brands.
+    /// </summary>
+    /// <returns>A list of all product brands.</returns>
+    [ProducesResponseType(type: typeof(IEnumerable<BrandResultDto>), statusCode: StatusCodes.Status200OK)]
+    [ProducesResponseType(type: typeof(ErrorDetails), statusCode: StatusCodes.Status500InternalServerError)]
+    [HttpGet("Brands")]
+    public async Task<ActionResult<IEnumerable<BrandResultDto>>> GetAllBrandsAsync() =>
+        Ok(await _serviceManager.ProductService.GetAllBrandsAsync());
 
-    //EndPoint ==> Get Product By Id
+
+    /// <summary>
+    /// Gets all available product types.
+    /// </summary>
+    /// <returns>A list of all product types.</returns>
+    [ProducesResponseType(type: typeof(IEnumerable<TypeResultDto>), statusCode: StatusCodes.Status200OK)]
+    [ProducesResponseType(type: typeof(ErrorDetails), statusCode: StatusCodes.Status500InternalServerError)]
+    [HttpGet("Types")]
+    public async Task<ActionResult<IEnumerable<TypeResultDto>>> GetAllTypesAsync() =>
+        Ok(await _serviceManager.ProductService.GetAllTypesAsync());
+
+
+    /// <summary>
+    /// Gets a specific product by its ID.
+    /// </summary>
+    /// <param name="id">The product ID.</param>
+    /// <returns>The product details if found.</returns>
+    [ProducesResponseType(type: typeof(ProductResultDto), statusCode: StatusCodes.Status200OK)]
+    [ProducesResponseType(type: typeof(ErrorDetails), statusCode: StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(type: typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+    [ProducesResponseType(type: typeof(ValidationErrorResponse), statusCode: StatusCodes.Status400BadRequest)]
     [HttpGet("{id}")]
-    public async Task<ActionResult<ProductResultDto>> GetProductByIdAsync(int id)
-    {
-        return Ok(await _serviceManager.ProductService.GetByIdAsync(id)!);
-    }
+    public async Task<ActionResult<ProductResultDto>> GetProductByIdAsync(int id) =>
+        Ok(await _serviceManager.ProductService.GetByIdAsync(id)!);
 }
