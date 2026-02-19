@@ -1,6 +1,7 @@
 using AutoMapper;
 using Domain.Contracts;
 using Domain.Entities.ProductModule;
+using Domain.Exceptions;
 using Services.Abstraction;
 using Services.Specifications;
 using Shared.DTOs.ProductModuleDTOs;
@@ -43,7 +44,7 @@ public class ProductService(IUnitOfWork _unitOfWork, IMapper _mapper) : IProduct
         // var product = await productRepo.GetByIdAsync(id);
         var product =
             await productRepo.GetByIdWithSpecAsync(new ProductWithTypeAndBrandSpecifications(p => p.Id == id));
-        if (product is null) return null;
+        if (product is null) throw new ProductNotFoundException(id);
         return _mapper.Map<ProductResultDto>(product);
     }
 }
