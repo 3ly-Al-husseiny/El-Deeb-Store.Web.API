@@ -6,9 +6,10 @@ namespace eCommerce.WebAPI.Extensions;
 
 public static class CoreServicesExtensions
 {
-    public static void AddCoreServices(this IServiceCollection services)
+    public static IServiceCollection AddCoreServices(this IServiceCollection services)
     {
         services.AddAutoMapper(cfg => { }, typeof(ServicesAssemblyReference).Assembly);
         services.AddScoped<IServiceManager, ServiceManager>();
+        return services;
     }
 }

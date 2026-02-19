@@ -19,17 +19,7 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
-
-        builder.Services.AddControllers();
-        // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-        builder.Services.AddOpenApi();
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-        builder.Services.Configure<ApiBehaviorOptions>(options =>
-        {
-            options.InvalidModelStateResponseFactory = ApiResponseFactory.CustomValidationErrorResponse;
-        });
+       
 
 
         // Register the DbContext with the dependency injection container and configure its options
@@ -41,7 +31,7 @@ public class Program
         builder.Services.AddScoped<IDataSeeding, DataSeeding>();
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         
-        builder.Services.AddCoreServices();
+        builder.Services.AddCoreServices().;
         
         var app = builder.Build();
 
