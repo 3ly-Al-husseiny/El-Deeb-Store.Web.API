@@ -1,4 +1,5 @@
 using Domain.Contracts;
+using eCommerce.WebAPI.Extensions;
 using eCommerce.WebAPI.Factories;
 using eCommerce.WebAPI.Middlewares;
 using Microsoft.AspNetCore.Mvc;
@@ -39,8 +40,9 @@ public class Program
 
         builder.Services.AddScoped<IDataSeeding, DataSeeding>();
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-        builder.Services.AddAutoMapper(cfg => { }, typeof(ServicesAssemblyReference).Assembly);
-        builder.Services.AddScoped<IServiceManager, ServiceManager>();
+        
+        builder.Services.AddCoreServices();
+        
         var app = builder.Build();
 
         // Seed Data with the first request to the API
