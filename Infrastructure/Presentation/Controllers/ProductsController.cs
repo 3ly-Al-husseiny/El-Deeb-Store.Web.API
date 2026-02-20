@@ -8,9 +8,7 @@ using Shared.Enums;
 
 namespace Presentation.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class ProductsController(IServiceManager _serviceManager) : ControllerBase
+public class ProductsController(IServiceManager _serviceManager) : ApiController
 {
     /// <summary>
     /// Gets all products with pagination, filtering, and sorting options.
