@@ -13,7 +13,8 @@ public static class WebApplicationExtensions
 
         using var scope = app.Services.CreateScope();
         var objOfDataSeeding = scope.ServiceProvider.GetRequiredService<IDataSeeding>();
-        objOfDataSeeding.SeedAsync();
+        await objOfDataSeeding.SeedAsync();
+        await objOfDataSeeding.SeedIdentityAsync();
 
         #endregion
 
@@ -33,6 +34,4 @@ public static class WebApplicationExtensions
         app.UseSwaggerUI(); //Middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
         return app;
     }
-
-
 }
