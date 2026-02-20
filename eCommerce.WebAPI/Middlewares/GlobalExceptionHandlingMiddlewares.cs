@@ -52,6 +52,7 @@ public class GlobalExceptionHandlingMiddleware
         context.Response.StatusCode = ex switch
         {
             NotFoundException => StatusCodes.Status404NotFound,
+            UnAuthorizedException => StatusCodes.Status401Unauthorized, 
             (_) => StatusCodes.Status500InternalServerError
         };
 
