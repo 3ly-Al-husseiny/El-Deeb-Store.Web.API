@@ -1,6 +1,7 @@
 using Domain.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Presistence.Data;
+using Presistence.Identity;
 using Presistence.Repositories;
 using Services.Abstraction;
 using StackExchange.Redis;
@@ -17,6 +18,14 @@ public static class InfrastructureServicesExtensions
         {
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
         });
+        
+        // Identity DbContext registration
+        // Register the DbContext with the dependency injection container and configure its options
+        services.AddDbContext<IdentityECommerceDbContext>(options =>
+        {
+            options.UseSqlServer(configuration.GetConnectionString("IdentityConnection"));
+        });
+        
 
         services.AddScoped<IDataSeeding, DataSeeding>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
