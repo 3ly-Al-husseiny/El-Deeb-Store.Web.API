@@ -1,4 +1,6 @@
 using Domain.Contracts;
+using Domain.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Presistence.Data;
 using Presistence.Identity;
@@ -18,20 +20,29 @@ public static class InfrastructureServicesExtensions
         {
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
         });
-        
+
         // Identity DbContext registration
         // Register the DbContext with the dependency injection container and configure its options
         services.AddDbContext<IdentityECommerceDbContext>(options =>
         {
             options.UseSqlServer(configuration.GetConnectionString("IdentityConnection"));
         });
-        
+
 
         services.AddScoped<IDataSeeding, DataSeeding>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddSingleton<IConnectionMultiplexer>((_) =>
             ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisConnection")!));
         services.AddScoped<IBasketRepository, BasketRepository>();
+        services.AddIdentity<User, IdentityRole>(opt =>
+            {
+                opt.Password.RequireNonAlphanumeric = true;
+                opt.Password.RequireUppercase = true;
+                opt.Password.RequireLowercase = true;
+                opt.Password.RequireDigit = true;
+                opt.User.RequireUniqueEmail = true;
+            })
+            .AddEntityFrameworkStores<IdentityECommerceDbContext>() /*.AddDefaultTokenProviders()*/;
 
 
         return services;

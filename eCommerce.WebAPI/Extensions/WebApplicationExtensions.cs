@@ -14,6 +14,7 @@ public static class WebApplicationExtensions
         using var scope = app.Services.CreateScope();
         var objOfDataSeeding = scope.ServiceProvider.GetRequiredService<IDataSeeding>();
         objOfDataSeeding.SeedAsync();
+        objOfDataSeeding.SeedIdentityAsync();
 
         #endregion
 
