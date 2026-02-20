@@ -16,8 +16,6 @@ public class ProductsController(IServiceManager _serviceManager) : ApiController
     /// <param name="parameter">Query parameters for filtering, sorting, and pagination.</param>
     /// <returns>A paginated list of products.</returns>
     [ProducesResponseType(type: typeof(PaginatedResult<ProductResultDto>), statusCode: StatusCodes.Status200OK)]
-    [ProducesResponseType(type: typeof(ErrorDetails), statusCode: StatusCodes.Status500InternalServerError)]
-    [ProducesResponseType(type: typeof(ValidationErrorResponse), statusCode: StatusCodes.Status400BadRequest)]
     [HttpGet()]
     public async Task<ActionResult<PaginatedResult<ProductResultDto>>> GetAllProducstAsync(
         [FromQuery] ProductSpecificationParameter parameter) =>
@@ -29,7 +27,6 @@ public class ProductsController(IServiceManager _serviceManager) : ApiController
     /// </summary>
     /// <returns>A list of all product brands.</returns>
     [ProducesResponseType(type: typeof(IEnumerable<BrandResultDto>), statusCode: StatusCodes.Status200OK)]
-    [ProducesResponseType(type: typeof(ErrorDetails), statusCode: StatusCodes.Status500InternalServerError)]
     [HttpGet("Brands")]
     public async Task<ActionResult<IEnumerable<BrandResultDto>>> GetAllBrandsAsync() =>
         Ok(await _serviceManager.ProductService.GetAllBrandsAsync());
@@ -40,7 +37,6 @@ public class ProductsController(IServiceManager _serviceManager) : ApiController
     /// </summary>
     /// <returns>A list of all product types.</returns>
     [ProducesResponseType(type: typeof(IEnumerable<TypeResultDto>), statusCode: StatusCodes.Status200OK)]
-    [ProducesResponseType(type: typeof(ErrorDetails), statusCode: StatusCodes.Status500InternalServerError)]
     [HttpGet("Types")]
     public async Task<ActionResult<IEnumerable<TypeResultDto>>> GetAllTypesAsync() =>
         Ok(await _serviceManager.ProductService.GetAllTypesAsync());
@@ -51,10 +47,8 @@ public class ProductsController(IServiceManager _serviceManager) : ApiController
     /// </summary>
     /// <param name="id">The product ID.</param>
     /// <returns>The product details if found.</returns>
+    /// 
     [ProducesResponseType(type: typeof(ProductResultDto), statusCode: StatusCodes.Status200OK)]
-    [ProducesResponseType(type: typeof(ErrorDetails), statusCode: StatusCodes.Status500InternalServerError)]
-    [ProducesResponseType(type: typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
-    [ProducesResponseType(type: typeof(ValidationErrorResponse), statusCode: StatusCodes.Status400BadRequest)]
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductResultDto>> GetProductByIdAsync(int id) =>
         Ok(await _serviceManager.ProductService.GetByIdAsync(id)!);

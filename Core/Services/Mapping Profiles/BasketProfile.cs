@@ -8,7 +8,12 @@ public class BasketProfile : Profile
 {
     public BasketProfile()
     {
-        CreateMap<CustomerBasket, BasketDto>().ReverseMap();
+        CreateMap<CustomerBasket, BasketDto>()
+            .ForMember(dest => dest.BasketItemDtos, opt => opt.MapFrom(src => src.BasketItems));
+        
+        CreateMap<BasketDto, CustomerBasket>()
+            .ForMember(dest => dest.BasketItems, opt => opt.MapFrom(src => src.BasketItemDtos));
+        
         CreateMap<BasketItem, BasketItemDto>().ReverseMap();
     }
 }
