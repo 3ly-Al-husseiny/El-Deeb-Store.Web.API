@@ -73,7 +73,7 @@ public class DataSeeding(
             }
 
             // 2 seed users [AdminUser , SuperAdminUser]
-            if (_userManager.Users.Any())
+            if (!_userManager.Users.Any())
             {
                 var adminUser = new User
                 {
@@ -113,10 +113,9 @@ public class DataSeeding(
                 _userManager.AddToRolesAsync(superAdminUser, new[] { "Admin", "SuperAdmin" });
             }
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            Console.WriteLine(e);
-            throw;
+            
         }
     }
 }
