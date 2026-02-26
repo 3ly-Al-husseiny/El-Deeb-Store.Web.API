@@ -7,14 +7,16 @@ using Domain.Entities.Identity;
 using Domain.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Services.Abstraction;
+using Shared.Common;
 using Shared.DTOs.IdentityModule;
 using ValidationException = Domain.Exceptions.ValidationException;
 
 namespace Services.Implementations;
 
-public class AuthenticationService(UserManager<User> _userManager, IMapper _mapper) : IAuthenticationService
+public class AuthenticationService(UserManager<User> _userManager, IMapper _mapper , IOptions<JwtOptions> _options) : IAuthenticationService
 {
     public async Task<UserResultDto> LoginAsync(LoginDto loginDto)
     {
@@ -60,6 +62,9 @@ public class AuthenticationService(UserManager<User> _userManager, IMapper _mapp
     //Helper method
     private async Task<string> CreateTokenAsync(User user)
     {
+        
+        var jwtOptions = _options.Value;
+        
         //Claims
         //Names , Email , Roles [m-m]
         var claims = new List<Claim>
@@ -68,7 +73,12 @@ public class AuthenticationService(UserManager<User> _userManager, IMapper _mapp
             new Claim(ClaimTypes.Email, user.Email!)
         };
         var roles = await _userManager.GetRolesAsync(user);
-        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+        
+        // add the roles to the claims
+        
+        // claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+        
+        // or
         
         foreach (var role in roles)
         {
@@ -76,16 +86,17 @@ public class AuthenticationService(UserManager<User> _userManager, IMapper _mapp
         }
         
         // get secret key from JWT Secret website
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("1b5b8a16e8c06449b39bbb8e3442f68b8374cfb1"));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey));
         
         // Algorithm to encrypt the token - signin credentials
         var signInCredetionals = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         
         var token = new JwtSecurityToken(
-            issuer:"https://localhost:5114",
-            audience:"AngularProject",
+            issuer:jwtOptions.Issuer,
+            audience:jwtOptions.Audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddDays(30), // Depend on the requirement and the business
+            // expires: DateTime.UtcNow.AddDays(30), // Depend on the requirement and the business
+                expires: DateTime.UtcNow.AddDays(jwtOptions.ExpirationInDays), // Depend on the requirement and the business
             signingCredentials: signInCredetionals
         );
         

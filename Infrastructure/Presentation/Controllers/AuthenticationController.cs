@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Services.Abstraction;
+using Shared.Common;
 using Shared.DTOs.IdentityModule;
 
 namespace Presentation.Controllers;
 
-public class AuthenticationController(IServiceManager _serviceManager) : ApiController
+public class AuthenticationController(IServiceManager _serviceManager ) : ApiController
 {
     //Post ==> Login
     [HttpPost("Login")]

@@ -1251,6 +1251,21 @@
           "bin/placeholder/Domain.dll": {}
         }
       },
+      "Persistence/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.SqlServer": "10.0.3",
+          "Services": "1.0.0",
+          "StackExchange.Redis": "2.11.0"
+        },
+        "compile": {
+          "bin/placeholder/Persistence.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Persistence.dll": {}
+        }
+      },
       "Presentation/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
@@ -1266,21 +1281,6 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
-      },
-      "Presistence/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v10.0",
-        "dependencies": {
-          "Microsoft.EntityFrameworkCore.SqlServer": "10.0.3",
-          "Services": "1.0.0",
-          "StackExchange.Redis": "2.11.0"
-        },
-        "compile": {
-          "bin/placeholder/Presistence.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Presistence.dll": {}
-        }
       },
       "Services/1.0.0": {
         "type": "project",
@@ -3878,15 +3878,15 @@
       "path": "../Core/Domain/Domain.csproj",
       "msbuildProject": "../Core/Domain/Domain.csproj"
     },
+    "Persistence/1.0.0": {
+      "type": "project",
+      "path": "../Infrastructure/Persistence/Persistence.csproj",
+      "msbuildProject": "../Infrastructure/Persistence/Persistence.csproj"
+    },
     "Presentation/1.0.0": {
       "type": "project",
       "path": "../Infrastructure/Presentation/Presentation.csproj",
       "msbuildProject": "../Infrastructure/Presentation/Presentation.csproj"
-    },
-    "Presistence/1.0.0": {
-      "type": "project",
-      "path": "../Infrastructure/Presistence/Presistence.csproj",
-      "msbuildProject": "../Infrastructure/Presistence/Presistence.csproj"
     },
     "Services/1.0.0": {
       "type": "project",
@@ -3908,8 +3908,8 @@
     "net10.0": [
       "Microsoft.AspNetCore.OpenApi >= 10.0.2",
       "Microsoft.EntityFrameworkCore.Tools >= 10.0.3",
+      "Persistence >= 1.0.0",
       "Presentation >= 1.0.0",
-      "Presistence >= 1.0.0",
       "Swashbuckle.AspNetCore >= 10.1.2"
     ]
   },
@@ -3939,11 +3939,11 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
+            "/home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Infrastructure/Persistence/Persistence.csproj": {
+              "projectPath": "/home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Infrastructure/Persistence/Persistence.csproj"
+            },
             "/home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Infrastructure/Presentation/Presentation.csproj": {
               "projectPath": "/home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Infrastructure/Presentation/Presentation.csproj"
-            },
-            "/home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Infrastructure/Presistence/Presistence.csproj": {
-              "projectPath": "/home/ali/Software Engineering/Server-Side Development/ASP.NET/El-Deeb.E-Commerce/Infrastructure/Presistence/Presistence.csproj"
             }
           }
         }
