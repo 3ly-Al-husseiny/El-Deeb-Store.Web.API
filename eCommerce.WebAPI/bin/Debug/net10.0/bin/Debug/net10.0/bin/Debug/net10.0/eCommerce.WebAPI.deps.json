@@ -10,8 +10,8 @@
         "dependencies": {
           "Microsoft.AspNetCore.OpenApi": "10.0.2",
           "Microsoft.EntityFrameworkCore.Tools": "10.0.3",
+          "Persistence": "1.0.0",
           "Presentation": "1.0.0",
-          "Presistence": "1.0.0",
           "Swashbuckle.AspNetCore": "10.1.2"
         },
         "runtime": {
@@ -882,25 +882,25 @@
           }
         }
       },
-      "Presentation/1.0.0": {
-        "dependencies": {
-          "Services.Abstraction": "1.0.0"
-        },
-        "runtime": {
-          "Presentation.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
-      },
-      "Presistence/1.0.0": {
+      "Persistence/1.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore.SqlServer": "10.0.3",
           "Services": "1.0.0",
           "StackExchange.Redis": "2.11.0"
         },
         "runtime": {
-          "Presistence.dll": {
+          "Persistence.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Presentation/1.0.0": {
+        "dependencies": {
+          "Services.Abstraction": "1.0.0"
+        },
+        "runtime": {
+          "Presentation.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -1344,12 +1344,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Presentation/1.0.0": {
+    "Persistence/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Presistence/1.0.0": {
+    "Presentation/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
