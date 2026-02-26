@@ -1,8 +1,13 @@
 using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using AutoMapper;
 using Domain.Entities.Identity;
 using Domain.Exceptions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
+using Microsoft.IdentityModel.Tokens;
 using Services.Abstraction;
 using Shared.DTOs.IdentityModule;
 using ValidationException = Domain.Exceptions.ValidationException;
@@ -27,7 +32,7 @@ public class AuthenticationService(UserManager<User> _userManager, IMapper _mapp
             throw new UnAuthorizedException();
         }
 
-        return new UserResultDto(user.DisplayName, "FakeToken", user.Email);
+        return new UserResultDto(user.DisplayName, await CreateTokenAsync(user), user.Email);
     }
 
     public async Task<UserResultDto> RegisterAsync(RegisterDto registerDto)
@@ -47,6 +52,44 @@ public class AuthenticationService(UserManager<User> _userManager, IMapper _mapp
             throw new ValidationException(errors);
         }
 
-        return new UserResultDto(user.DisplayName, "FakeToken", user.Email);
+        return new UserResultDto(user.DisplayName,await CreateTokenAsync(user), user.Email);
+    }
+    
+    
+    //Token ==> Encrypted string ==> function return string
+    //Helper method
+    private async Task<string> CreateTokenAsync(User user)
+    {
+        //Claims
+        //Names , Email , Roles [m-m]
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.DisplayName),
+            new Claim(ClaimTypes.Email, user.Email!)
+        };
+        var roles = await _userManager.GetRolesAsync(user);
+        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+        
+        foreach (var role in roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
+        
+        // get secret key from JWT Secret website
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("1b5b8a16e8c06449b39bbb8e3442f68b8374cfb1"));
+        
+        // Algorithm to encrypt the token - signin credentials
+        var signInCredetionals = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        
+        var token = new JwtSecurityToken(
+            issuer:"https://localhost:5114",
+            audience:"AngularProject",
+            claims: claims,
+            expires: DateTime.UtcNow.AddDays(30), // Depend on the requirement and the business
+            signingCredentials: signInCredetionals
+        );
+        
+        // WriteToken --> JWTSecurityToken ==> string
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }

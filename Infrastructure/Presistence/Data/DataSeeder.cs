@@ -5,7 +5,7 @@ using Services.Abstraction;
 
 namespace Presistence.Data;
 
-public class DataSeeding(
+public class DataSeeder(
     ECommerceDbContext _dbContext,
     RoleManager<IdentityRole> _roleManager,
     UserManager<User> _userManager) : IDataSeeding

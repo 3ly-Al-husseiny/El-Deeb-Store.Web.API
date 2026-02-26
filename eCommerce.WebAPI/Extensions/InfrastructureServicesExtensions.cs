@@ -29,7 +29,7 @@ public static class InfrastructureServicesExtensions
         });
 
 
-        services.AddScoped<IDataSeeding, DataSeeding>();
+        services.AddScoped<IDataSeeding, DataSeeder>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddSingleton<IConnectionMultiplexer>((_) =>
             ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisConnection")!));
