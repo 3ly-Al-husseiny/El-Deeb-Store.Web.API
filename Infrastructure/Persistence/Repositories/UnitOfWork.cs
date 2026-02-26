@@ -9,7 +9,7 @@ public class UnitOfWork(ECommerceDbContext _dbContext) : IUnitOfWork
     private ConcurrentDictionary<string, object> _concurrentRepositories = new();
 
 
-    public IGenericRepository<TEntity, TKey> GetGenericRepository<TEntity, TKey>() where TEntity : BasedEntity<TKey>
+    public IGenericRepository<TEntity, TKey> GetGenericRepository<TEntity, TKey>() where TEntity : BaseEntity<TKey>
     {
         // will Create new obj every time we call this method , I Can Call it more than once for the same request. 
         // Not Efficient , I will use Dictionary to store the created obj and return it if exist.

@@ -3,7 +3,7 @@ using Domain.Entities.Shared;
 
 namespace Domain.Contracts;
 
-public interface ISpecifications<TEntity,TKey> where TEntity : BasedEntity<TKey>
+public interface ISpecifications<TEntity,TKey> where TEntity : BaseEntity<TKey>
 {
     //Signature for property [Expression ==> Where]
     public Expression<Func<TEntity,bool>>? Criteria { get; }

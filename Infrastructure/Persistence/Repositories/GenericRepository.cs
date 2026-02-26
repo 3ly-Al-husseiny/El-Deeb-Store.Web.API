@@ -6,7 +6,7 @@ using Persistence.Helpers;
 namespace Persistence.Repositories;
 
 public class GenericRepository<TEntity, TKey>(ECommerceDbContext _dbContext)
-    : IGenericRepository<TEntity, TKey> where TEntity : BasedEntity<TKey>
+    : IGenericRepository<TEntity, TKey> where TEntity : BaseEntity<TKey>
 {
     public async Task<IEnumerable<TEntity>> GetAllAsync(bool asNoTracking = false)
     {

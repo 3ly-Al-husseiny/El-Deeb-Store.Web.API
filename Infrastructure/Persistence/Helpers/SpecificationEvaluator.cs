@@ -3,7 +3,7 @@ namespace Persistence.Helpers;
 public static class SpecificationEvaluator
 {
     public static IQueryable<TEntity> CreateQuery<TEntity, TKey>(IQueryable<TEntity> inputQuery,
-        ISpecifications<TEntity, TKey> specifications) where TEntity : BasedEntity<TKey>
+        ISpecifications<TEntity, TKey> specifications) where TEntity : BaseEntity<TKey>
     {
         var query = inputQuery;
         if (specifications.Criteria != null)

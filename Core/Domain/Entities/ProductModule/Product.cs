@@ -2,7 +2,7 @@ using Domain.Entities.Shared;
 
 namespace Domain.Entities.ProductModule;
 
-public class Product : BasedEntity<int>
+public class Product : BaseEntity<int>
 {
     public string Name { get; set; } = String.Empty;
     public string Description { get; set; } = String.Empty;
