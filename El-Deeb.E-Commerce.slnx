@@ -6,7 +6,7 @@
   </Folder>
   <Folder Name="/Infrastructure/">
     <Project Path="Infrastructure/Presentation/Presentation.csproj" />
-    <Project Path="Infrastructure/Presistence/Presistence.csproj" />
+    <Project Path="Infrastructure\Persistence\Persistence.csproj" />
   </Folder>
   <Project Path="eCommerce.WebAPI/eCommerce.WebAPI.csproj" />
   <Project Path="Shared/Shared.csproj" />

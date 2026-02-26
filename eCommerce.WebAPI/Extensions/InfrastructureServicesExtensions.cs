@@ -1,11 +1,15 @@
+using System.Text;
 using Domain.Contracts;
 using Domain.Entities.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Presistence.Data;
-using Presistence.Identity;
-using Presistence.Repositories;
+using Microsoft.IdentityModel.Tokens;
+using Persistence.Data;
+using Persistence.Identity;
+using Persistence.Repositories;
 using Services.Abstraction;
+using Shared.Common;
 using StackExchange.Redis;
 
 namespace eCommerce.WebAPI.Extensions;
@@ -29,10 +33,11 @@ public static class InfrastructureServicesExtensions
         });
 
 
-        services.AddScoped<IDataSeeding, DataSeeding>();
+        services.AddScoped<IDataSeeding, DataSeeder>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddSingleton<IConnectionMultiplexer>((_) =>
             ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisConnection")!));
+        services.ValidateJwt(configuration);
         services.AddScoped<IBasketRepository, BasketRepository>();
         services.AddIdentity<User, IdentityRole>(opt =>
             {
@@ -45,6 +50,40 @@ public static class InfrastructureServicesExtensions
             .AddEntityFrameworkStores<IdentityECommerceDbContext>() /*.AddDefaultTokenProviders()*/;
 
 
+        return services;
+    }
+
+
+    public static IServiceCollection ValidateJwt(this IServiceCollection services, IConfiguration configuration)
+    {
+        // Bind the "JwtOptions" section of the configuration to a JwtOptions object
+        var jwtOptions = configuration.GetSection("jwtOptions").Get<JwtOptions>();
+        services.AddAuthentication(options =>
+        {
+            // jwtBearerDefaults --> check who is the user and validate the token
+            options.DefaultAuthenticateScheme =
+                JwtBearerDefaults.AuthenticationScheme; // Set the default authentication scheme to JWT Bearer
+
+            // jwtBearerDefaults --> if the user is not authenticated and try to access a protected resource,
+            // it will challenge the user to authenticate using JWT Bearer
+            // will redirect to the login page or return a 401 Unauthorized response, depending on the client application
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+        }).AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtOptions.Issuer,
+                ValidAudience = jwtOptions.Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey)),
+                ClockSkew = TimeSpan.Zero
+            };
+        });
+        services.AddAuthorization();
         return services;
     }
 }

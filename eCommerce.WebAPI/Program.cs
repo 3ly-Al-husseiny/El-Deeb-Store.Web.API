@@ -11,7 +11,7 @@ public class Program
 
         builder.Services.AddWebApiServices();
         builder.Services.AddInfrastructureServices(builder.Configuration);
-        builder.Services.AddCoreServices();
+        builder.Services.AddCoreServices(builder.Configuration);
 
         #endregion
 
@@ -30,6 +30,8 @@ public class Program
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
+        app.UseAuthentication(); 
+        app.UseAuthorization();
         app.MapControllers();
         app.Run();
 
