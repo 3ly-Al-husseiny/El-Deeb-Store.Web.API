@@ -54,6 +54,16 @@ public class DataSeeder(
                 }
             }
 
+            if (!_dbContext.DeliveryMethods.Any())
+            {
+                var deliverMethodsData = File.OpenRead("../Infrastructure/Persistence/Data/DataSeedingFiles/delivery.json");
+                var deliveryMethods = await JsonSerializer.DeserializeAsync<List<Product>>(deliverMethodsData);
+                if (deliveryMethods != null)
+                {
+                    await _dbContext.Products.AddRangeAsync(deliveryMethods);
+                }
+            }
+
             await _dbContext.SaveChangesAsync();
         }
         catch (Exception ex)
@@ -112,6 +122,7 @@ public class DataSeeder(
                 _userManager.AddToRoleAsync(adminUser, "Admin");
                 _userManager.AddToRolesAsync(superAdminUser, new[] { "Admin", "SuperAdmin" });
             }
+            
         }
         catch (Exception ex)
         {
