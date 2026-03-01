@@ -20,5 +20,6 @@ public class OrderProfile : Profile
             .ForMember(dest => dest.DeliveryMethod, options => options.MapFrom(src => src.DeliveryMethod.ShortName))
             .ForMember(dest => dest.TotalPrice,
                 options => options.MapFrom(src => src.SubTotal + src.DeliveryMethod.Price));
+        CreateMap<AddressDto,Domain.Entities.Identity.Address>().ReverseMap();
     }
 }

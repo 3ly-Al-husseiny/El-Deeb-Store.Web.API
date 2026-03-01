@@ -9,8 +9,9 @@ public class OrderItem : BaseEntity<Guid>
         
     }
 
-    public OrderItem(decimal price , int quantity)
+    public OrderItem(ProductInOrderItem product,decimal price , int quantity)
     {
+        Product = product;
         Price = price;
         Quantity = quantity;
     }
