@@ -16,12 +16,16 @@ public class OrderService(IMapper _mapper, IBasketRepository _basketRepo, IUnitO
     {
         var order = await _unitOfWork.GetGenericRepository<Order, Guid>()
             .GetByIdWithSpecAsync(new OrderWithIncludeSpecifications(id)) ?? throw new OrderNotFoundException(id);
-        return 
+        return _mapper.Map<OrderRequest>(order);
     }
 
-    public async Task<IEnumerable<OrderRequest>> GetOrdersByEmailAsync(string userId)
+    public async Task<IEnumerable<OrderRequest>> GetOrdersByEmailAsync(string userEmail)
     {
+        var orders = await _unitOfWork.GetGenericRepository<Order, Guid>()
+            .GetAllWithSpecAsync(new OrderWithIncludeSpecifications(userEmail));
+        return  _mapper.Map<IEnumerable<OrderRequest>>(orders);
     }
+    
 
     public async Task<OrderResult> CreateOrderAsync(OrderRequest orderRequest, string userEmail)
     {
