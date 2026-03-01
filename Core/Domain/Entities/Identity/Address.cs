@@ -7,6 +7,7 @@ public class Address
     public string LastName { get; set; } = String.Empty;
     public string Country { get; set; } = String.Empty;
     public string Street { get; set; } = String.Empty;
+    public string City { get; set; } = String.Empty;
     public User User { get; set; } 
     public string UserId { get; set; } = String.Empty;
 }

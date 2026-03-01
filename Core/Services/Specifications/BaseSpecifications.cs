@@ -5,7 +5,7 @@ using Domain.Entities.Shared;
 namespace Services.Specifications;
 
 public abstract class BaseSpecifications<TEntity, TKey> : ISpecifications<TEntity, TKey>
-    where TEntity : BasedEntity<TKey>
+    where TEntity : BaseEntity<TKey>
 
 {
     #region Creiteria - Where Expressions
