@@ -15,6 +15,7 @@
       <PackageReference Include="AutoMapper" Version="16.0.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.3" />
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.3" />
+      <PackageReference Include="Stripe.net" Version="50.5.0-beta.1" />
     </ItemGroup>
 
 </Project>

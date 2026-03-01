@@ -49,7 +49,7 @@ public class OrderService(IMapper _mapper, IBasketRepository _basketRepo, IUnitO
         //4] Calculate SubTotal ==> OrderItems ==> OrderItem.Q * OrderItem.Pirce
         var subTotal = orderItems.Sum(o => o.Price * o.Quantity);
         //5] Create Obj from order ==> params , Add DB , Save Changes
-        var orderToCreate = new Order(subTotal, deliveryMethod, address, orderItems, userEmail);
+        var orderToCreate = new Order(subTotal, deliveryMethod, address, orderItems, userEmail , basket.PaymentIntentId);
         await _unitOfWork.GetGenericRepository<Order, Guid>().AddAsync(orderToCreate);
         await _unitOfWork.SaveChangesAsync();
         //6] Map <Order , OrderResult>
