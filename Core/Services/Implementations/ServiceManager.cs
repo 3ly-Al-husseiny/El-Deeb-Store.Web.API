@@ -2,6 +2,7 @@ using AutoMapper;
 using Domain.Contracts;
 using Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Services.Abstraction;
 using Shared.Common;
@@ -13,12 +14,12 @@ public class ServiceManager(
     IMapper _mapper,
     IBasketRepository _basketRepo,
     UserManager<User> _userManager,
-    IOptions<JwtOptions> _jwtOptions) : IServiceManager
+    IOptions<JwtOptions> _jwtOptions,
+    IConfiguration _configuration) : IServiceManager
 {
     private readonly Lazy<IProductService> _productService =
         new Lazy<IProductService>(() =>
             new ProductService(_uniOfWork, _mapper)); // Lazy initialization for ProductService
-
 
     private readonly Lazy<IBasketService> _basketService =
         new Lazy<IBasketService>(() => new BasketService(_basketRepo, _mapper));
@@ -29,8 +30,12 @@ public class ServiceManager(
     private readonly Lazy<IOrderService> _orderService =
         new Lazy<IOrderService>(() => new OrderService(_mapper, _basketRepo, _uniOfWork));
 
+    private readonly Lazy<IPaymentService> _paymentService =
+        new Lazy<IPaymentService>(() => new PaymentService(_configuration, _basketRepo, _uniOfWork, _mapper));
+
     public IProductService ProductService => _productService.Value;
     public IBasketService BasketService => _basketService.Value;
     public IAuthenticationService AuthenticationService => _authenticationService.Value;
     public IOrderService OrderService => _orderService.Value;
+    public IPaymentService PaymentService => _paymentService.Value;
 }

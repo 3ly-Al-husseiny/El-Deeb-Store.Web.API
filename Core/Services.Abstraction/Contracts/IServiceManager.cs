@@ -6,5 +6,6 @@ public interface IServiceManager
     public IBasketService BasketService { get;}
     public IAuthenticationService AuthenticationService { get;}
     public IOrderService OrderService { get;}
+    public IPaymentService PaymentService { get;}
     
 }
