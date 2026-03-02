@@ -6,4 +6,8 @@ public record BasketDto
     public string Id { get; init; }
     
     public ICollection<BasketItemDto> BasketItemDtos { get; init; } = [];
+    public string? PaymentIntentId { get; init; }
+    public string? ClientSecret { get; init; }
+    public decimal? ShippingPrice { get; init; } //DeliveryMethod.Price
+    public int? DeliveryMethodId { get; init; }
 }

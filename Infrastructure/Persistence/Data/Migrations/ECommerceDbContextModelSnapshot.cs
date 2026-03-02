@@ -228,7 +228,8 @@ namespace Persistence.Data.Migrations
                 {
                     b.HasOne("Domain.Entities.OrderModule.Order", null)
                         .WithMany("OrderItems")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.OwnsOne("Domain.Entities.OrderModule.ProductInOrderItem", "Product", b1 =>
                         {
