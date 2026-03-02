@@ -42,10 +42,18 @@ public class OrderService(IMapper _mapper, IBasketRepository _basketRepo, IUnitO
             orderItems.Add(CreateOrderItem(product, item));
         }
 
+        var orderRepo = _unitOfWork.GetGenericRepository<Order, Guid>();
         //3] GetDeliveryMethod ==> DeliveryMethodId ==> DB
         var deliveryMethod = await _unitOfWork.GetGenericRepository<DeliveryMethod, int>()
                                  .GetByIdAsync(orderRequest.DeliveryMethodId)
                              ?? throw new DeliveryMethodNotFoundException(orderRequest.DeliveryMethodId);
+        var orderExist = await orderRepo.GetByIdWithSpecAsync(new OrderWithPaymentIntentIdSpecifications(basket.PaymentIntentId));
+        if (orderExist != null)
+        {
+            orderRepo.Remove(orderExist); // remove the order and we have configured cascade delete for orderItems so it will remove the orderItems too
+             await _unitOfWork.SaveChangesAsync();
+        }
+
         //4] Calculate SubTotal ==> OrderItems ==> OrderItem.Q * OrderItem.Pirce
         var subTotal = orderItems.Sum(o => o.Price * o.Quantity);
         //5] Create Obj from order ==> params , Add DB , Save Changes
