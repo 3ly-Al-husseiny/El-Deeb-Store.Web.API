@@ -9,10 +9,10 @@ public class BasketProfile : Profile
     public BasketProfile()
     {
         CreateMap<CustomerBasket, BasketDto>()
-            .ForMember(dest => dest.BasketItemDtos, opt => opt.MapFrom(src => src.BasketItems));
+            .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items));
         
         CreateMap<BasketDto, CustomerBasket>()
-            .ForMember(dest => dest.BasketItems, opt => opt.MapFrom(src => src.BasketItemDtos));
+            .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items));
         
         CreateMap<BasketItem, BasketItemDto>().ReverseMap();
     }

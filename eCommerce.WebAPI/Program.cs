@@ -9,7 +9,8 @@ public class Program
 
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Services.AddWebApiServices();
+        builder.Services.AddWebApiServices(builder.Configuration);
+        builder.Services.ConfigureMySwaggerGen();
         builder.Services.AddInfrastructureServices(builder.Configuration);
         builder.Services.AddCoreServices(builder.Configuration);
 
@@ -30,6 +31,7 @@ public class Program
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
+        app.UseCors("CorsPolicy");
         app.UseAuthentication(); 
         app.UseAuthorization();
         app.MapControllers();

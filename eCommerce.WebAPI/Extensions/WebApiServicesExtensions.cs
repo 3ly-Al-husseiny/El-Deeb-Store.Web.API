@@ -6,13 +6,21 @@ namespace eCommerce.WebAPI.Extensions;
 
 public static class WebApiServicesExtensions
 {
-    public static IServiceCollection AddWebApiServices(this IServiceCollection services)
+    public static IServiceCollection AddWebApiServices(this IServiceCollection services , IConfiguration _configurations)
     {
         // Add services to the container.
         services.AddControllers();
+        services.AddCors(options =>
+        {
+            options.AddPolicy("CorsPolicy", builder =>
+            {
+                builder.AllowAnyHeader().AllowAnyMethod().WithOrigins(_configurations.GetSection("URLS")["FrontUrl"]);
+            });
+        });
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         services.AddOpenApi();
         services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen();
         
         services.Configure<ApiBehaviorOptions>(options =>
         {
@@ -24,7 +32,7 @@ public static class WebApiServicesExtensions
 
 
 
-    public static IServiceCollection ConfigureSwaggerGen(IServiceCollection services)
+    public static IServiceCollection ConfigureMySwaggerGen(this IServiceCollection services)
     {
         services.AddSwaggerGen(option =>
         {

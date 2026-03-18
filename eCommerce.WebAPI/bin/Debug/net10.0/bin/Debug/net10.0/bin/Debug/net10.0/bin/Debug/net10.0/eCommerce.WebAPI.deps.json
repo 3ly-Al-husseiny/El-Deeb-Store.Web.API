@@ -708,6 +708,18 @@
           }
         }
       },
+      "Stripe.net/50.5.0-beta.1": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3",
+          "System.Configuration.ConfigurationManager": "9.0.4"
+        },
+        "runtime": {
+          "lib/net9.0/Stripe.net.dll": {
+            "assemblyVersion": "50.5.0.0",
+            "fileVersion": "50.5.0.0"
+          }
+        }
+      },
       "Swashbuckle.AspNetCore/10.1.2": {
         "dependencies": {
           "Swashbuckle.AspNetCore.Swagger": "10.1.2",
@@ -911,7 +923,8 @@
           "AutoMapper": "16.0.0",
           "Domain": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "10.0.3",
-          "Services.Abstraction": "1.0.0"
+          "Services.Abstraction": "1.0.0",
+          "Stripe.net": "50.5.0-beta.1"
         },
         "runtime": {
           "Services.dll": {
@@ -1219,6 +1232,13 @@
       "sha512": "sha512-tCYDmkaCpEc48MZHh/FgQKavX/kqjpBAIyEFxeO9LTuHRV0flJndXcKpfbgUKahKuk/OI6TEXM6NwKu0gi6xjQ==",
       "path": "stackexchange.redis/2.11.0",
       "hashPath": "stackexchange.redis.2.11.0.nupkg.sha512"
+    },
+    "Stripe.net/50.5.0-beta.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-IsVfdFlhrOlUo2v7oSPEdUVYGPVcGYbhzzBgwk70vLvHfTLqDYmD63l734fUK7dqe/kx9jCTdGxGUtMzqiKskg==",
+      "path": "stripe.net/50.5.0-beta.1",
+      "hashPath": "stripe.net.50.5.0-beta.1.nupkg.sha512"
     },
     "Swashbuckle.AspNetCore/10.1.2": {
       "type": "package",

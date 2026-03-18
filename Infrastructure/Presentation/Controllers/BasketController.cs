@@ -5,7 +5,6 @@ using Shared.DTOs.BasketModule;
 
 namespace Presentation.Controllers;
 
-[Authorize]
 public class BasketController(IServiceManager _serviceManager) : ApiController
 {
     // Get BaseUrl/api/basket?id={id}

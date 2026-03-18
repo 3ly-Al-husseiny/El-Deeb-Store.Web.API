@@ -1,7 +1,9 @@
 using System.Text.Json;
 using Domain.Entities.Identity;
+using Domain.Entities.OrderModule;
 using Microsoft.AspNetCore.Identity;
 using Services.Abstraction;
+using Address = Domain.Entities.Identity.Address;
 
 namespace Persistence.Data;
 
@@ -57,10 +59,10 @@ public class DataSeeder(
             if (!_dbContext.DeliveryMethods.Any())
             {
                 var deliverMethodsData = File.OpenRead("../Infrastructure/Persistence/Data/DataSeedingFiles/delivery.json");
-                var deliveryMethods = await JsonSerializer.DeserializeAsync<List<Product>>(deliverMethodsData);
+                var deliveryMethods = await JsonSerializer.DeserializeAsync<List<DeliveryMethod>>(deliverMethodsData);
                 if (deliveryMethods != null)
                 {
-                    await _dbContext.Products.AddRangeAsync(deliveryMethods);
+                    await _dbContext.DeliveryMethods.AddRangeAsync(deliveryMethods);
                 }
             }
 

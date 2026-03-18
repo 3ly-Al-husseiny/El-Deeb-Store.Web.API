@@ -18,10 +18,9 @@ public class ProductService(IUnitOfWork _unitOfWork, IMapper _mapper) : IProduct
         var specifications = new ProductWithTypeAndBrandSpecifications(parameter);
         var products = await productRepo.GetAllWithSpecAsync(specifications);
         var productsResult = _mapper.Map<IEnumerable<ProductResultDto>>(products);
-        var pageSize = productsResult.Count();
-            var countSpecification = new ProductCountSpecifications(parameter);
+        var countSpecification = new ProductCountSpecifications(parameter);
         var totalCount = await productRepo.CountAsync(countSpecification);
-        return new PaginatedResult<ProductResultDto>(parameter.PageIndex, parameter.PageSize, pageSize, productsResult);
+        return new PaginatedResult<ProductResultDto>(parameter.PageIndex, parameter.PageSize, totalCount, productsResult);
     }
 
     public async Task<IEnumerable<BrandResultDto>> GetAllBrandsAsync()

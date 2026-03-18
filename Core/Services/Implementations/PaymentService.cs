@@ -112,13 +112,13 @@ public class PaymentService(
 
     private long CalculateTotalAmountAsync(CustomerBasket basket)
     {
-        return (long)(basket.BasketItems.Sum(i => i.Quantity * i.Price) + basket.ShippingPrice) * 100;
+        return (long)(basket.Items.Sum(i => i.Quantity * i.Price) + basket.ShippingPrice) * 100;
     }
 
     private async Task ValidateBasketItemsPricesAsync(CustomerBasket basket)
     {
         // validate the BasketItems Prices
-        foreach (var item in basket.BasketItems)
+        foreach (var item in basket.Items)
         {
             var product = await _unitOfWork.GetGenericRepository<Product, int>().GetByIdAsync(item.Id)
                           ?? throw new ProductNotFoundException(item.Id);
