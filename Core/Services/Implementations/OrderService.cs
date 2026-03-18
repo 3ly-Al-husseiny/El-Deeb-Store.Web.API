@@ -30,12 +30,12 @@ public class OrderService(IMapper _mapper, IBasketRepository _basketRepo, IUnitO
     public async Task<OrderResult> CreateOrderAsync(OrderRequest orderRequest, string userEmail)
     {
         //1] Map addressDto to address
-        var address = _mapper.Map<Address>(orderRequest.ShippingAddress);
+        var address = _mapper.Map<Address>(orderRequest.ShipToAddress);
         //2] GetOrderItems ==> BasketId ==> Basket ==> BasketItems [Id]
         var basket = await _basketRepo.GetBasketAsync(orderRequest.BasketId) ??
                      throw new NotFoundException(orderRequest.BasketId);
         var orderItems = new List<OrderItem>();
-        foreach (var item in basket.BasketItems)
+        foreach (var item in basket.Items)
         {
             var product = await _unitOfWork.GetGenericRepository<Product, int>().GetByIdAsync(item.Id) ??
                           throw new ProductNotFoundException(item.Id);
