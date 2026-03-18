@@ -12,18 +12,18 @@ namespace Services.Implementations;
 
 public class OrderService(IMapper _mapper, IBasketRepository _basketRepo, IUnitOfWork _unitOfWork) : IOrderService
 {
-    public async Task<OrderRequest> GetOrderByIdAsync(Guid id)
+    public async Task<OrderResult> GetOrderByIdAsync(Guid id)
     {
         var order = await _unitOfWork.GetGenericRepository<Order, Guid>()
             .GetByIdWithSpecAsync(new OrderWithIncludeSpecifications(id)) ?? throw new OrderNotFoundException(id);
-        return _mapper.Map<OrderRequest>(order);
+        return _mapper.Map<OrderResult>(order);
     }
 
-    public async Task<IEnumerable<OrderRequest>> GetOrdersByEmailAsync(string userEmail)
+    public async Task<IEnumerable<OrderResult>> GetOrdersByEmailAsync(string userEmail)
     {
         var orders = await _unitOfWork.GetGenericRepository<Order, Guid>()
             .GetAllWithSpecAsync(new OrderWithIncludeSpecifications(userEmail));
-        return  _mapper.Map<IEnumerable<OrderRequest>>(orders);
+        return  _mapper.Map<IEnumerable<OrderResult>>(orders);
     }
     
 

@@ -5,9 +5,9 @@ namespace Services.Abstraction;
 public interface IOrderService
 {
     // Get Order By Id ==> Take id ==> Return OrderResult
-    Task<OrderRequest> GetOrderByIdAsync(Guid id);
+    Task<OrderResult> GetOrderByIdAsync(Guid id);
     // Get All Orders By Email ==> Take Email ==> Return IEnumerable<OrderResult>
-    Task<IEnumerable<OrderRequest>> GetOrdersByEmailAsync(string userId);
+    Task<IEnumerable<OrderResult>> GetOrdersByEmailAsync(string userId);
     // Create Order ==> Take OrderCreate ==> Return OrderResult
     Task<OrderResult> CreateOrderAsync(OrderRequest orderRequest , string userEmail);
     // Get Delivery Methods ==> Return IEnumerable<DeliveryMethodResult>

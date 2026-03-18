@@ -121,8 +121,8 @@ public class DataSeeder(
                 await _userManager.CreateAsync(adminUser,"AdminPa$$w0rd");
                 await _userManager.CreateAsync(superAdminUser,"SuperAdminPa$$w0rd");
                 // 3 Assign roles ==> users
-                _userManager.AddToRoleAsync(adminUser, "Admin");
-                _userManager.AddToRolesAsync(superAdminUser, new[] { "Admin", "SuperAdmin" });
+                await _userManager.AddToRoleAsync(adminUser, "Admin");
+                await _userManager.AddToRolesAsync(superAdminUser, new[] { "Admin", "SuperAdmin" });
             }
             
         }

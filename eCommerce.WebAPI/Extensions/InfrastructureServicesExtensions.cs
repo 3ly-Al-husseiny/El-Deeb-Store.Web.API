@@ -37,7 +37,6 @@ public static class InfrastructureServicesExtensions
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddSingleton<IConnectionMultiplexer>((_) =>
             ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisConnection")!));
-        services.ValidateJwt(configuration);
         services.AddScoped<IBasketRepository, BasketRepository>();
         services.AddIdentity<User, IdentityRole>(opt =>
             {
@@ -48,6 +47,7 @@ public static class InfrastructureServicesExtensions
                 opt.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<IdentityECommerceDbContext>() /*.AddDefaultTokenProviders()*/;
+        services.ValidateJwt(configuration);
 
 
         return services;
@@ -57,7 +57,7 @@ public static class InfrastructureServicesExtensions
     public static IServiceCollection ValidateJwt(this IServiceCollection services, IConfiguration configuration)
     {
         // Bind the "JwtOptions" section of the configuration to a JwtOptions object
-        var jwtOptions = configuration.GetSection("jwtOptions").Get<JwtOptions>();
+        var jwtOptions = configuration.GetSection("JwtOptions").Get<JwtOptions>();
         services.AddAuthentication(options =>
         {
             // jwtBearerDefaults --> check who is the user and validate the token

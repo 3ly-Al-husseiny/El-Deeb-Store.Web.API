@@ -5,9 +5,12 @@ using Domain.Entities.OrderModule;
 using Domain.Exceptions;
 using Microsoft.Extensions.Configuration;
 using Services.Abstraction;
+using Services.Specifications;
 using Shared.DTOs.BasketModule;
 using Stripe;
 using Product = Domain.Entities.ProductModule.Product;
+using Order = Domain.Entities.OrderModule.Order;
+
 
 namespace Services.Implementations;
 
@@ -74,13 +77,68 @@ public class PaymentService(
 
     public async Task<BasketDto> CreateOrUpdatePaymentIntentAsync(string basketId)
     {
-        StripeConfiguration.ApiKey = _configuration.GetSection("StripSettings")["SecretKey"];
+        StripeConfiguration.ApiKey = _configuration.GetSection("StripeSettings")["SecretKey"];
         var basket = await GetBasketAsync(basketId);
         await ValidateBasketItemsPricesAsync(basket);
         var amout = CalculateTotalAmountAsync(basket);
         await CreationOrUpdatingPaymentIntentAsync(basket, amout);
         await _basketRepository.CreateOrUpdateBasketAsync(basket, TimeSpan.FromDays(7));
-        return  _mapper.Map<BasketDto>(basket);
+        return _mapper.Map<BasketDto>(basket);
+    }
+
+    public async Task UpdatePaymentStatusAsync(string json, string signatureHeader)
+    {
+        string endpointSecret = _configuration.GetSection("StripeSettings")["EndPointSecret"];
+        var stripeEvent = EventUtility.ParseEvent(json,throwOnApiVersionMismatch:false);
+        stripeEvent = EventUtility.ConstructEvent(json, signatureHeader, endpointSecret);
+        // Handle the event
+        // If on SDK version < 46, use class Events instead of EventTypes
+        
+        var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
+        
+        if (stripeEvent.Type == EventTypes.PaymentIntentSucceeded)
+        {
+            //Change order payment status ==> paymentRecieved
+            await UpdatePaymentStatusRecievedAsync(paymentIntent.Id);
+
+        }
+        
+        else if (stripeEvent.Type == EventTypes.PaymentIntentPaymentFailed)
+        {
+            await UpdatePaymentStatusFailedAsync(paymentIntent.Id);
+        }
+        
+        else
+        {
+            // Unexpected event type
+            Console.WriteLine("Unhandled event type: {0}", stripeEvent.Type);
+        }
+    }
+
+    private async Task UpdatePaymentStatusFailedAsync(string paymentIntentId)
+    {
+
+        var orderRepo = _unitOfWork.GetGenericRepository<Order, Guid>();
+        var order = await orderRepo.GetByIdWithSpecAsync(new OrderWithPaymentIntentIdSpecifications(paymentIntentId));
+        if (order is not null)
+        {
+            order.PaymentStatus = OrderPaymentStatus.PaymentFailed;
+            orderRepo.Update(order);
+            await _unitOfWork.SaveChangesAsync();
+        }
+       
+    }
+
+    private async Task UpdatePaymentStatusRecievedAsync(string paymentIntentId)
+    {
+        var orderRepo = _unitOfWork.GetGenericRepository<Order, Guid>();
+        var order = await orderRepo.GetByIdWithSpecAsync(new OrderWithPaymentIntentIdSpecifications(paymentIntentId));
+        if (order is not null)
+        {
+            order.PaymentStatus = OrderPaymentStatus.PaymentReceived;
+            orderRepo.Update(order);
+            await _unitOfWork.SaveChangesAsync();
+        }
     }
 
     private async Task CreationOrUpdatingPaymentIntentAsync(CustomerBasket basket, long amout)
@@ -92,7 +150,7 @@ public class PaymentService(
             var options = new PaymentIntentCreateOptions()
             {
                 Amount = amout,
-                Currency = "USD,",
+                Currency = "USD",
                 PaymentMethodTypes = ["card"]
             };
             var paymentIntent = await stripService.CreateAsync(options);

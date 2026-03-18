@@ -21,7 +21,7 @@ public class OrdersController(IServiceManager _serviceManager) : ApiController
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<OrderResult>> GetOrderByIdAsync(Guid id)
     {
-        var order = _serviceManager.OrderService.GetOrderByIdAsync(id);
+        var order = await _serviceManager.OrderService.GetOrderByIdAsync(id);
         return  Ok(order);
     }
     
@@ -30,12 +30,13 @@ public class OrdersController(IServiceManager _serviceManager) : ApiController
     public async Task<ActionResult<IEnumerable<OrderResult>>> GetAllOrdersByEmailAsync()
     {
         var userEmail = User.FindFirstValue(ClaimTypes.Email);
-        var orders = _serviceManager.OrderService.GetOrdersByEmailAsync(userEmail);
+        var orders = await _serviceManager.OrderService.GetOrdersByEmailAsync(userEmail);
         return  Ok(orders);
     }
 
     //Get Delivery Methods
     [HttpGet("DeliveryMethods")]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<DeliveryMethodResult>>> GetDeliveryMethodsAsync()
     {
         var deliveryMethods = await _serviceManager.OrderService.GetDeliveryMethodsAsync();
